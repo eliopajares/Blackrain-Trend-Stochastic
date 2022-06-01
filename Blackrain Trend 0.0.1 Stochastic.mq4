@@ -4,7 +4,7 @@
 //|                   v0.0.1   31 - 05 - 2022 |
 //+-------------------------------------------+
 #property description "Blackrain Trend 0.0.1 Stochastic"
-#property copyright   "Copyright © 2021, Elio Pajares"
+#property copyright   "Copyright © 2022, Elio Pajares"
 //#property link        "http://www.blackrainalgo.com"
 
 //+------------------------------------------------------------------+
@@ -44,7 +44,7 @@ input int      time_between_trades = -1; //value in seconds of the time between 
 
 extern string  data_2 = "==== Management of trade setup ====";
 input bool     pyramidying = false;
-input bool     management_trade = false; //
+input bool     management_trade = false;
 input bool     breakeven     = false;
 input bool     close_trade     = true;
 //input int      rsi_inv_upper    = 10;
@@ -60,22 +60,22 @@ input bool     CloseOnDuration = false;
 input int      MaxDurationHours = 1000; //in hours
 input int      MaxDurationMin   = 0; //in minutes
 input bool     CloseFridays    = false;
-input bool     retrace         = false;
-input double   PipsStick     = 40;
-input double   PipsRetrace   = 20;
+// input bool     retrace         = false;
+// input double   PipsStick     = 40;
+// input double   PipsRetrace   = 20;
 
 extern string  data_3 = "==== Money management ====";
 input double   Lots         = 0.1;
 input bool     MM           = true;
 input double   Risk         = 0.25;
 input double   RR           = 3;
-input double   maxlots      = 2;
+input double   maxlots      = 1;
 
-extern string  data_4 = "==== EMA parameters ====";
+// extern string  data_4 = "==== EMA parameters ====";
 //input int      EMA           = 200;
-input int      EMA_Fast      = 10;
-input int      EMA_Slow      = 20;
-input int      macd_signal   = 7;
+// input int      EMA_Fast      = 10;
+// input int      EMA_Slow      = 20;
+// input int      macd_signal   = 7;
 //input          ENUM_TIMEFRAMES LOW_TF = PERIOD_M5;
 //input int      MA_count      = 8;
 //input int      MA_Period_H1  = 7;
@@ -91,18 +91,18 @@ input double   ATR_SL_factor  = 2;
 //input int      RSI_range      = 30;
 
 extern string  data_6 = "==== Stochastic parameters ====";
-input int      KPeriod        = 14; // K Period
+input int      KPeriod        = 100; // K Period
 input int      DPeriod        = 7; // D Period
 input int      Slowing        = 9;  // Slowing value
 //input int      StochUpper     = 70; // Stochastic Upper limit
 //input int      StochLower     = 30; // Stochastic Lower limit
 input int      Stoch_range    = 30;
 
-extern string  data_7 = "==== SAR parameters ====";
-input double   SAR_step_low   = 0.04; // SAR Step parameter
-input double   SAR_step_med   = 0.04; // SAR Step parameter
-input double   SAR_step_high  = 0.005; // SAR Step parameter
-input double   SAR_max        = 0.2; // SAR max parameter
+// extern string  data_7 = "==== SAR parameters ====";
+// input double   SAR_step_low   = 0.04; // SAR Step parameter
+// input double   SAR_step_med   = 0.04; // SAR Step parameter
+// input double   SAR_step_high  = 0.005; // SAR Step parameter
+// input double   SAR_max        = 0.2; // SAR max parameter
 
 extern string  data_8 = "==== Days to Trade ====";
 input bool     Sunday         = true;
@@ -152,12 +152,12 @@ input bool     December       = true;
 int Slippage = 3;
 int vSlippage;
 int ticket;
-int ticket_1,ticket_2,ticket_3;
+// int ticket_1,ticket_2,ticket_3;
 int total_orders;
-int count_1,count_2;
+// int count_1,count_2;
 int current_spread;
 int i,ii;
-int RSIUpper,RSILower;
+// int RSIUpper,RSILower;
 int StochUpper,StochLower;
    
 //double init_lots;
@@ -165,25 +165,25 @@ double LotDigits = 2;
 double trade_lots;
 double vPoint; 
 double ma_M5,ma_ema;
-double rsi;
-double stochastic;
-double ma_Slow,ma_Fast;
-double stochastic_0,stochastic_1;
+// double rsi;
+// double stochastic;
+// double ma_Slow,ma_Fast;
+// double stochastic_0,stochastic_1;
 //double ma_Fast_0,ma_Slow_0;
 //double ma_Fast_1,ma_Slow_1;
 //double macd_main_0,macd_main_1,macd_main_2,macd_signal_0,macd_signal_1,macd_signal_2;
-double macd_main_med_0,macd_main_med_1,macd_signal_med_0,macd_signal_med_1;
+// double macd_main_med_0,macd_main_med_1,macd_signal_med_0,macd_signal_med_1;
 double stochastic_main_med_0,stochastic_main_med_1,stochastic_main_med_2;
 double stochastic_signal_med_0,stochastic_signal_med_1,stochastic_signal_med_2;
-double ma_med_10_0,ma_med_10_1,ma_med_10_2,ma_med_20_0,ma_med_20_1,ma_med_20_2;
-double SAR_med_0,SAR_med_1;
-double turtle_0,turtle_1,turtle_2;
+// double ma_med_10_0,ma_med_10_1,ma_med_10_2,ma_med_20_0,ma_med_20_1,ma_med_20_2;
+// double SAR_med_0,SAR_med_1;
+// double turtle_0,turtle_1,turtle_2;
 double ATR_med_0;
 double stochastic_main_med_1_100,stochastic_main_med_2_100,stochastic_signal_med_1_100,stochastic_signal_med_2_100;
 //double stochastic_H1_0,stochastic_H1_1;
 //double ma_H1_10_1,ma_H1_10_2,ma_H1_20_1,ma_H1_20_2;
 //double ma_100_1,ma_100_2,ma_200_1,ma_200_2;
-double ma_H1;
+// double ma_H1;
 //double rsi_H1;
 //double ma_10,ma_20;
 double SL,TP,diff,SL_dist;
@@ -396,11 +396,11 @@ void OnTick()
       //double stochastic_H1_1 = iStochastic(Symbol(), LOW_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
       //double stochastic_signal_low_1 = iStochastic(Symbol(), LOW_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
 
-      stochastic_main_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 0);
-      stochastic_main_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
-      stochastic_main_med_2 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
-      stochastic_signal_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 0);
-      stochastic_signal_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
+      // stochastic_main_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 0);
+      // stochastic_main_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
+      // stochastic_main_med_2 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
+      // stochastic_signal_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 0);
+      // stochastic_signal_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
       
       stochastic_main_med_1_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
       stochastic_main_med_2_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
@@ -529,7 +529,7 @@ void OnTick()
          if(pyramidying == false)
             {  
             //ticket=OrderSend(Symbol(),OP_BUY,GetLots(),Ask,vSlippage,Ask-StopLoss*vPoint,Ask+TakeProfit*vPoint,"Blackrain Trend 0.0.1a",magic_number,0,Green);
-            ticket=OrderSend(Symbol(),OP_BUY,trade_lots,Ask,vSlippage,SL,TP,"Blackrain Trend 0.0.1",magic_number,0,Green);
+            ticket=OrderSend(Symbol(),OP_BUY,trade_lots,Ask,vSlippage,SL,TP,"Blackrain Trend 0.0.1 Stoch",magic_number,0,Green);
                      
             if(ticket>0)
                {
@@ -546,9 +546,9 @@ void OnTick()
          
          if(pyramidying == true)
             {
-            ticket_1=OrderSend(Symbol(),OP_BUY,trade_lots,Ask,vSlippage,SL,Ask+(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Green);
-            ticket_2=OrderSend(Symbol(),OP_BUYSTOP,trade_lots,NormalizeDouble(Ask+(2*SL_dist),5),vSlippage,Ask+(1*SL_dist),Ask+(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Green);
-            ticket_3=OrderSend(Symbol(),OP_BUYSTOP,trade_lots,NormalizeDouble(Ask+(4*SL_dist),5),vSlippage,Ask+(3*SL_dist),Ask+(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Green);
+            // ticket_1=OrderSend(Symbol(),OP_BUY,trade_lots,Ask,vSlippage,SL,Ask+(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Green);
+            // ticket_2=OrderSend(Symbol(),OP_BUYSTOP,trade_lots,NormalizeDouble(Ask+(2*SL_dist),5),vSlippage,Ask+(1*SL_dist),Ask+(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Green);
+            // ticket_3=OrderSend(Symbol(),OP_BUYSTOP,trade_lots,NormalizeDouble(Ask+(4*SL_dist),5),vSlippage,Ask+(3*SL_dist),Ask+(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Green);
             
             //ticket_1=OrderSend(Symbol(),OP_BUY,trade_lots,Ask,vSlippage,0,0,"Blackrain Trend 0.0.1",magic_number,0,Green);
             //ticket_2=OrderSend(Symbol(),OP_BUYSTOP,trade_lots,NormalizeDouble(Ask+(2*SL_dist),5),vSlippage,0,0,"Blackrain Trend 0.0.1",magic_number,0,Green);
@@ -632,7 +632,7 @@ void OnTick()
          if(pyramidying == false)
             {  
             //ticket=OrderSend(Symbol(),OP_SELL,GetLots(),Bid,vSlippage,Bid+StopLoss*vPoint,Bid-TakeProfit*vPoint,"Blackrain Trend 0.0.1a",magic_number,0,Red);
-            ticket=OrderSend(Symbol(),OP_SELL,GetLots(SL),Bid,vSlippage,SL,TP,"Blackrain Trend 0.0.1",magic_number,0,Red);
+            ticket=OrderSend(Symbol(),OP_SELL,GetLots(SL),Bid,vSlippage,SL,TP,"Blackrain Trend 0.0.1 Stoch",magic_number,0,Red);
                      
             if(ticket>0)
                {
@@ -649,9 +649,9 @@ void OnTick()
          
          if(pyramidying == true)
             {
-            ticket_1=OrderSend(Symbol(),OP_SELL,trade_lots,Bid,vSlippage,SL,Bid-(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Red);
-            ticket_2=OrderSend(Symbol(),OP_SELLSTOP,trade_lots,NormalizeDouble(Bid-(2*SL_dist),5),vSlippage,Bid-(1*SL_dist),Bid-(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Red);
-            ticket_3=OrderSend(Symbol(),OP_SELLSTOP,trade_lots,NormalizeDouble(Bid-(4*SL_dist),5),vSlippage,Bid-(3*SL_dist),Bid-(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Red);
+            // ticket_1=OrderSend(Symbol(),OP_SELL,trade_lots,Bid,vSlippage,SL,Bid-(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Red);
+            // ticket_2=OrderSend(Symbol(),OP_SELLSTOP,trade_lots,NormalizeDouble(Bid-(2*SL_dist),5),vSlippage,Bid-(1*SL_dist),Bid-(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Red);
+            // ticket_3=OrderSend(Symbol(),OP_SELLSTOP,trade_lots,NormalizeDouble(Bid-(4*SL_dist),5),vSlippage,Bid-(3*SL_dist),Bid-(RR*SL_dist),"Blackrain Trend 0.0.1",magic_number,0,Red);
             
             //ticket_1=OrderSend(Symbol(),OP_SELL,trade_lots,Bid,vSlippage,0,0,"Blackrain Trend 0.0.1",magic_number,0,Red);
             //ticket_2=OrderSend(Symbol(),OP_SELLSTOP,trade_lots,NormalizeDouble(Bid-(2*SL_dist),5),vSlippage,0,0,"Blackrain Trend 0.0.1",magic_number,0,Red);
@@ -895,24 +895,24 @@ void OnTick()
                   }
                
                //Use retrace function to give the price a bit more room to operate. If a limit is exceeded, TP is used as nearby SL. The hard-SL is set on SL parameter
-               if(retrace==true)
-                  {
-                  if(OrderType()==OP_BUY && (OrderOpenPrice()-Bid)>vPoint*PipsStick && Bid<OrderOpenPrice() && OrderTakeProfit()>OrderOpenPrice())
-                     {
-                     if(!OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),OrderOpenPrice()-vPoint*PipsRetrace,0,Green))
-                        Print("OrderModify error is due to RETRACE, error ",GetLastError());
-                        else
-                        Print("RETRACE done");
-                     }
-                  if(OrderType()==OP_SELL && (Ask-OrderOpenPrice())>vPoint*PipsStick && Ask>OrderOpenPrice() && OrderTakeProfit()<OrderOpenPrice())
-                     {
-                     if(!OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),OrderOpenPrice()+vPoint*PipsRetrace,0,Green))
-                        //Print("OrderModify error ",GetLastError());
-                        Print("OrderModify error is due to RETRACE, error ",GetLastError());
-                        else
-                        Print("RETRACE done");
-                     }
-                  }   
+               // if(retrace==true)
+               //    {
+               //    if(OrderType()==OP_BUY && (OrderOpenPrice()-Bid)>vPoint*PipsStick && Bid<OrderOpenPrice() && OrderTakeProfit()>OrderOpenPrice())
+               //       {
+               //       if(!OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),OrderOpenPrice()-vPoint*PipsRetrace,0,Green))
+               //          Print("OrderModify error is due to RETRACE, error ",GetLastError());
+               //          else
+               //          Print("RETRACE done");
+               //       }
+               //    if(OrderType()==OP_SELL && (Ask-OrderOpenPrice())>vPoint*PipsStick && Ask>OrderOpenPrice() && OrderTakeProfit()<OrderOpenPrice())
+               //       {
+               //       if(!OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),OrderOpenPrice()+vPoint*PipsRetrace,0,Green))
+               //          //Print("OrderModify error ",GetLastError());
+               //          Print("OrderModify error is due to RETRACE, error ",GetLastError());
+               //          else
+               //          Print("RETRACE done");
+               //       }
+               //    }   
                }
             }
          }
@@ -1310,9 +1310,11 @@ void TS_RRratio()
       if(OrderType()==OP_BUY && OrderSymbol()==Symbol() && OrderMagicNumber()==magic_number)
          {
          shift_bar = iBarShift(Symbol(),MED_TF,OrderOpenTime(),false);
-         dist_open_to_initSL = OrderOpenPrice()-MathMin(iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar),iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar+1)); //change this to ATR distance
+         // dist_open_to_initSL = OrderOpenPrice()-MathMin(iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar),iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar+1)); //change this to ATR distance
+         dist_open_to_initSL = ATR_SL_factor*iATR(Symbol(),MED_TF,ATR_period,shift_bar);
+         // Print("Distance is ",dist_open_to_initSL);
                   
-         if((Bid-OrderOpenPrice())>TS_RRratio_step*dist_open_to_initSL) //solo funciona para la primera vez ya que compara con el precio de apertura, el parametro determina la distancia per el primer movimiento de SL
+         if((Bid-OrderOpenPrice())>TS_RRratio_step*dist_open_to_initSL)
             {
             if(OrderStopLoss()<(Bid-(TS_RRratio_step+TS_RRratio_sl)*dist_open_to_initSL)) // creo que esta condicion es correcta, procede si el SL està a 3R de distancia del precio
                {
@@ -1325,13 +1327,14 @@ void TS_RRratio()
       if(OrderType()==OP_SELL && OrderSymbol()==Symbol() && OrderMagicNumber()==magic_number)
          {
          shift_bar = iBarShift(Symbol(),MED_TF,OrderOpenTime(),false);
-         dist_open_to_initSL = MathMax(iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar),iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar+1))-OrderOpenPrice();
+         // dist_open_to_initSL = MathMax(iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar),iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar+1))-OrderOpenPrice();
+         dist_open_to_initSL = ATR_SL_factor*iATR(Symbol(),MED_TF,ATR_period,shift_bar);
          
-         if((OrderOpenPrice()-Ask)>2*dist_open_to_initSL)
+         if((OrderOpenPrice()-Ask)>TS_RRratio_step*dist_open_to_initSL)
             {
-            if(OrderStopLoss()>(Ask+3*dist_open_to_initSL))
+            if(OrderStopLoss()>(Ask+(TS_RRratio_step+TS_RRratio_sl)*dist_open_to_initSL))
                {
-               if(!OrderModify(OrderTicket(),OrderOpenPrice(),Ask+1*dist_open_to_initSL,OrderTakeProfit(),0,Green))
+               if(!OrderModify(OrderTicket(),OrderOpenPrice(),Ask+TS_RRratio_sl*dist_open_to_initSL,OrderTakeProfit(),0,Green))
                   Print("OrderModify error is because TS, error ",GetLastError());
                return;
                }
