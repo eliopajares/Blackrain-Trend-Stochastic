@@ -1314,11 +1314,12 @@ void TS_RRratio()
          dist_open_to_initSL = ATR_SL_factor*iATR(Symbol(),MED_TF,ATR_period,shift_bar);
          // Print("Distance is ",dist_open_to_initSL);
                   
-         if((Bid-OrderOpenPrice())>TS_RRratio_step*dist_open_to_initSL)
+         // if((Bid-OrderOpenPrice())>TS_RRratio_step*dist_open_to_initSL)
+         if((Bid-OrderOpenPrice())>dist_open_to_initSL)
             {
-            if(OrderStopLoss()<(Bid-(TS_RRratio_step+TS_RRratio_sl)*dist_open_to_initSL)) // creo que esta condicion es correcta, procede si el SL està a 3R de distancia del precio
+            if(OrderStopLoss()<(Bid-TS_RRratio_step*dist_open_to_initSL))
                {
-               if(!OrderModify(OrderTicket(),OrderOpenPrice(),Bid-TS_RRratio_sl*dist_open_to_initSL,OrderTakeProfit(),0,Green)) //esto tambien parece correcto, mueve el SL a 1R de distancia del precio actual
+               if(!OrderModify(OrderTicket(),OrderOpenPrice(),Bid-dist_open_to_initSL,OrderTakeProfit(),0,Green)) //esto tambien parece correcto, mueve el SL a 1R de distancia del precio actual
                   Print("OrderModify error is because TS, error ",GetLastError());
                return;
                }
@@ -1330,11 +1331,11 @@ void TS_RRratio()
          // dist_open_to_initSL = MathMax(iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar),iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,shift_bar+1))-OrderOpenPrice();
          dist_open_to_initSL = ATR_SL_factor*iATR(Symbol(),MED_TF,ATR_period,shift_bar);
          
-         if((OrderOpenPrice()-Ask)>TS_RRratio_step*dist_open_to_initSL)
+         if((OrderOpenPrice()-Ask)>dist_open_to_initSL)
             {
-            if(OrderStopLoss()>(Ask+(TS_RRratio_step+TS_RRratio_sl)*dist_open_to_initSL))
+            if(OrderStopLoss()>(Ask+TS_RRratio_step*dist_open_to_initSL))
                {
-               if(!OrderModify(OrderTicket(),OrderOpenPrice(),Ask+TS_RRratio_sl*dist_open_to_initSL,OrderTakeProfit(),0,Green))
+               if(!OrderModify(OrderTicket(),OrderOpenPrice(),Ask+dist_open_to_initSL,OrderTakeProfit(),0,Green))
                   Print("OrderModify error is because TS, error ",GetLastError());
                return;
                }
