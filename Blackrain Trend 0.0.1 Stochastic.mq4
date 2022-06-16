@@ -335,13 +335,13 @@ void OnTick()
       //double stochastic_signal_low_1 = iStochastic(Symbol(), LOW_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
 
       // stochastic_main_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 0);
-      // stochastic_main_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
-      // stochastic_main_med_2 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
+      stochastic_main_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
+      stochastic_main_med_2 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
       // stochastic_signal_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 0);
       // stochastic_signal_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
       
-      stochastic_main_med_1_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
-      stochastic_main_med_2_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
+      // stochastic_main_med_1_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
+      // stochastic_main_med_2_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
       
 //      double macd_main_low_0 = iMACD(Symbol(), LOW_TF, EMA_Fast, EMA_Slow, macd_signal,0,MODE_MAIN,0);
 //      double macd_main_low_1 = iMACD(Symbol(), LOW_TF, EMA_Fast, EMA_Slow, macd_signal,0,MODE_MAIN,1);
@@ -403,10 +403,10 @@ void OnTick()
       //--- check for BUY position
       
       if(
-      (stochastic_main_med_1_100>20 && stochastic_main_med_2_100<20) 
-      || (stochastic_main_med_1_100>30 && stochastic_main_med_2_100<30) 
-      || (stochastic_main_med_1_100>25 && stochastic_main_med_2_100<25)
-      || (stochastic_main_med_1_100>15 && stochastic_main_med_2_100<15)
+      (stochastic_main_med_1>20 && stochastic_main_med_2<20) 
+      || (stochastic_main_med_1>30 && stochastic_main_med_2<30) 
+      || (stochastic_main_med_1>25 && stochastic_main_med_2<25)
+      || (stochastic_main_med_1>15 && stochastic_main_med_2<15)
       )
          {
          SL_dist = ATR_SL_factor*ATR_med_0;
@@ -446,10 +446,10 @@ void OnTick()
       //--- check for SELL position
             
       if(
-      (stochastic_main_med_1_100<80 && stochastic_main_med_2_100>80) 
-      || (stochastic_main_med_1_100<70 && stochastic_main_med_2_100>70) 
-      || (stochastic_main_med_1_100<75 && stochastic_main_med_2_100>75)
-      || (stochastic_main_med_1_100<85 && stochastic_main_med_2_100>85)
+      (stochastic_main_med_1<80 && stochastic_main_med_2>80) 
+      || (stochastic_main_med_1<70 && stochastic_main_med_2>70) 
+      || (stochastic_main_med_1<75 && stochastic_main_med_2>75)
+      || (stochastic_main_med_1<85 && stochastic_main_med_2>85)
       )
          {
          SL_dist = ATR_SL_factor*ATR_med_0;
@@ -483,52 +483,6 @@ void OnTick()
       return;
       }
 
-
-//+------------------------------------------------------------------+
-//| PYRAMIDYING                                                      | IMPLEMENT THE STEP BY STEP PROCESS AND FOR BUY / SELL VARIANTS. USE SIMILAR APPROACH AS WITH TS TO IMPLEMENT IT
-//+------------------------------------------------------------------+   
-  
-//   if(pyramidying == true && CountOrder_symbol_magic()>0) // Put conditions to detect trend, e.g. count if EMA20 (EMA50, EMA100 or other) is rising, or if price is higher than several previous periods (Turtle)
-//      {
-//      if(total_orders==2 && pyramid_1==false) //means that the second order is activated. What to do when 2nd order is activated->move SL to 1R (grab ticket_1 and change SL)
-//         {
-//         if(!OrderSelect(ticket_1,SELECT_BY_TICKET,MODE_TRADES)) return;
-//            {
-//            if(OrderType()==OP_BUY && OrderSymbol()==Symbol() && OrderMagicNumber()==magic_number)
-//               {
-//               double dist=OrderOpenPrice()-OrderStopLoss();
-//               
-//               if(!OrderModify(OrderTicket(),OrderOpenPrice(),OrderOpenPrice()+1*dist,OrderTakeProfit(),0,Green))
-//                  {
-//                  Print("OrderModify error is due to pyramidying, error ",GetLastError());
-//                  }
-//               else
-//                  {
-//                  pyramid_1 = true;
-//                  Print("PYRAMIDYING done for 1st and 2nd order");
-//                  }
-//               }
-//            }      
-//         }
-//      if(total_orders==3 && pyramid_2==false) //what to do when 2nd order is activated->move SL to 3R
-//         {
-//         if(OrderType()==OP_BUY && OrderSymbol()==Symbol() && OrderMagicNumber()==magic_number)
-//            {
-//            double dist=OrderOpenPrice()-OrderStopLoss();
-//            
-//            if(!OrderModify(OrderTicket(),OrderOpenPrice(),OrderOpenPrice()+1*dist,OrderTakeProfit(),0,Green))
-//               {
-//               Print("OrderModify error is due to pyramidying, error ",GetLastError());
-//               }
-//            else
-//               {
-//               pyramid_1 = true;
-//               Print("PYRAMIDYING done for 1st and 2nd order");
-//               }
-//            }
-//         }       
-//      }
-
 //+------------------------------------------------------------------+
 //| MANAGE OPEN ORDERS: TRAILING                                     |
 //+------------------------------------------------------------------+   
@@ -546,8 +500,6 @@ void OnTick()
 
    //if(total>0 && NewBar())
    if(total_orders>0)
-   //if(CountOrder_symbol_magic()>0)
-   //if(Orderstotal()total>0)
       {
       //for(int cnt=0;cnt<OrdersTotal()-1;cnt++)
       for(int cnt=OrdersTotal()-1;cnt>=0;cnt--)
@@ -561,13 +513,7 @@ void OnTick()
                {
                if(management_trade==true)
                   {
-                  //rsi = iRSI(Symbol(), PERIOD_M5, RSIperiod, PRICE_CLOSE, 0);
-                  //stochastic_0 = iStochastic(Symbol(), PERIOD_M5, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 0);
-                  //double stochastic_H1_0_signal = iStochastic(Symbol(), LOW_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 0);
-                  //double stochastic_H1_0_main = iStochastic(Symbol(), LOW_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 0);
-                  //double rsi_H1_0 = iRSI(Symbol(), LOW_TF, RSIperiod, PRICE_CLOSE, 0);
-                  
-                  
+
                   //ma_med_10_0 = iMA(Symbol(), MED_TF, 10, 0, MODE_EMA, PRICE_CLOSE, 0);
                   //ma_med_20_0 = iMA(Symbol(), MED_TF, 20, 0, MODE_EMA, PRICE_CLOSE, 0);
                   //ma_med_10_1 = iMA(Symbol(), MED_TF, 10, 0, MODE_EMA, PRICE_CLOSE, 1);
@@ -575,17 +521,12 @@ void OnTick()
                   //ma_med_10_2 = iMA(Symbol(), MED_TF, 10, 0, MODE_EMA, PRICE_CLOSE, 2);
                   //ma_med_20_2 = iMA(Symbol(), MED_TF, 20, 0, MODE_EMA, PRICE_CLOSE, 2);
                   
-                  stochastic_main_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 0);
                   stochastic_main_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
-                  stochastic_signal_med_0 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 0);
+                  stochastic_main_med_2 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
                   stochastic_signal_med_1 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
+                  stochastic_signal_med_2 = iStochastic(Symbol(), MED_TF, KPeriod, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 2);
                   
-                  stochastic_main_med_1_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 1);
-                  stochastic_main_med_2_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_MAIN, 2);
-                  stochastic_signal_med_1_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 1);
-                  stochastic_signal_med_2_100 = iStochastic(Symbol(), MED_TF, 100, DPeriod, Slowing, MODE_SMA, 0, MODE_SIGNAL, 2);
-      
-                  
+
                   //SAR_med_0 = iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,0);
                   //SAR_med_1 = iSAR(Symbol(),MED_TF,SAR_step_med,SAR_max,1);
                   
@@ -600,71 +541,24 @@ void OnTick()
                      BE();
                      }
                   
-//                  if(stochastic_H1_0_signal>stoch_inv_upper && OrderType()==OP_BUY)
-//                     {
-//                     BE();
-//                     }
-//                  
-//                  if(stochastic_H1_0_signal<stoch_inv_lower && OrderType()==OP_SELL)
-//                     {
-//                     BE();
-//                     }   
-//
-//                  if(stochastic_H1_0_main>stoch_inv_upper && rsi_H1_0>RSIUpper && OrderType()==OP_BUY)
-//                     {
-//                     BE();
-//                     }
-//                  
-//                  if(stochastic_H1_0_main<stoch_inv_lower && rsi_H1_0<RSILower && OrderType()==OP_SELL)
-//                     {
-//                     BE();
-//                     }
-                     
-                  // Close BUY trades if the setup is invalid
-                  //if(rsi>=rsi_inv_upper && stochastic_0>=stoch_inv_upper && OrderType()==OP_BUY && (Bid-OrderOpenPrice())>pips_invalidation*vPoint)
-                  //if(rsi>=rsi_inv_upper && stochastic>=stoch_inv_upper && OrderType()==OP_BUY && (Bid-OrderOpenPrice())>pips_invalidation*vPoint && ma_10<ma_20)
-                  //if(ma_10_0<ma_20_0 && ma_10_1>ma_20_1 && OrderType()==OP_BUY && (Bid-OrderOpenPrice())>pips_invalidation*vPoint)
+                  // Close BUY/SELL trades if setup is invalidated
+
                   if(close_trade == true &&
-                  //(turtle_1==OP_SELL && turtle_2==OP_BUY && OrderType()==OP_BUY
-                  //(ma_med_10_1<ma_med_20_1 && ma_med_10_2>ma_med_20_2 && OrderType()==OP_BUY
-                  //(ma_med_10_1<ma_med_20_1 && ma_med_10_2>ma_med_20_2 && OrderType()==OP_BUY && Bid<OrderOpenPrice()
-                  //(SAR_med_0>Bid && OrderType()==OP_BUY && Bid<OrderOpenPrice()
-                  (stochastic_main_med_1_100<stochastic_signal_med_1_100 && stochastic_main_med_2_100>stochastic_signal_med_2_100 && stochastic_main_med_1_100>stoch_inv_upper && OrderType()==OP_BUY
-                  
+                  ((stochastic_main_med_1<stochastic_signal_med_1 && stochastic_main_med_2>stochastic_signal_med_2 && stochastic_main_med_1>stoch_inv_upper && OrderType()==OP_BUY)
+                  || (stochastic_main_med_1>stochastic_signal_med_1 && stochastic_main_med_2<stochastic_signal_med_2 && stochastic_main_med_1<stoch_inv_lower && OrderType()==OP_SELL))
                   //(stochastic_main_med_0<stochastic_signal_med_0 && stochastic_main_med_1>stochastic_signal_med_1 && stochastic_main_med_0>stoch_inv_upper && OrderType()==OP_BUY
                   
                   //(stochastic_main_med_0<stochastic_signal_med_0 && stochastic_main_med_1>stochastic_signal_med_1 && stochastic_main_med_0>stoch_inv_upper && OrderType()==OP_BUY && Bid<OrderOpenPrice()
-                  ))
+                  )
                      {
+                        Print("estoy aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
                      closeall();
                      closeall_stop();
+                     Print("Order closed");
                      //if(!OrderClose(OrderTicket(),OrderLots(),OrderClosePrice(),3,clrMagenta))
                      //Print("BUY order ERROR close due to invalidation of current setup: ",OrderTicket(),", Error: ",GetLastError());
                      //else
                      //Print("BUY order closed due to invalidation of current setup");
-                     }
-                  
-                  // Close SELL trades if the setup is invalid
-                  //if(rsi<=rsi_inv_lower && stochastic_0<=stoch_inv_lower && OrderType()==OP_SELL && (OrderOpenPrice()-Ask)>pips_invalidation*vPoint)
-                  //if(rsi<=rsi_inv_lower && stochastic<=stoch_inv_lower && OrderType()==OP_SELL && (OrderOpenPrice()-Ask)>pips_invalidation*vPoint && ma_10>ma_20)
-                  //if(ma_10_0>ma_20_0 && ma_10_1<ma_20_1 && OrderType()==OP_SELL && (OrderOpenPrice()-Ask)>pips_invalidation*vPoint)
-                  if(close_trade == true &&
-                  //(turtle_1==OP_BUY && turtle_2==OP_SELL && OrderType()==OP_SELL
-                  //(ma_med_10_1>ma_med_20_1 && ma_med_10_2<ma_med_20_2 && OrderType()==OP_SELL
-                  //(ma_med_10_1>ma_med_20_1 && ma_med_10_2<ma_med_20_2 && OrderType()==OP_SELL && Bid>OrderOpenPrice()
-                  //(SAR_med_0<Bid && OrderType()==OP_SELL && Bid>OrderOpenPrice()
-                  (stochastic_main_med_1_100>stochastic_signal_med_1_100 && stochastic_main_med_2_100<stochastic_signal_med_2_100 && stochastic_main_med_1_100<stoch_inv_lower && OrderType()==OP_SELL
-                  
-                  //(stochastic_main_med_0>stochastic_signal_med_0 && stochastic_main_med_1<stochastic_signal_med_1 && stochastic_main_med_0<stoch_inv_lower && OrderType()==OP_SELL
-                  //(stochastic_main_med_0>stochastic_signal_med_0 && stochastic_main_med_1<stochastic_signal_med_1 && stochastic_main_med_0<stoch_inv_lower && OrderType()==OP_SELL && Bid>OrderOpenPrice()
-                  ))
-                     {
-                     closeall();
-                     closeall_stop();
-                     //if(!OrderClose(OrderTicket(),OrderLots(),OrderClosePrice(),3,clrMagenta))
-                     //Print("SELL order ERROR close due to invalidation of current setup: ",OrderTicket(),", Error: ",GetLastError());
-                     //else
-                     //Print("SELL order closed due to invalidation of current setup");
                      }
                   }   
                   
